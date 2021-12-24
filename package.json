@@ -1,0 +1,19 @@
+{
+  "name": "instaminutesapp",
+  "version": "1.0.0",
+  "description": "assignment from InstaMinutes",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shivam-singh-au17/InstaMinutesApp.git"
+  },
+  "author": "Shivam Singh",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shivam-singh-au17/InstaMinutesApp/issues"
+  },
+  "homepage": "https://github.com/shivam-singh-au17/InstaMinutesApp#readme"
+}
