@@ -21,7 +21,14 @@ let users = new Users();
 
 app.use("/", express.static(publicPath));
 
-
+app.get("/", async (req, res) => {
+    try {
+        return res.redirect("/");
+    } catch (err) {
+        alert(err);
+        window.location.href = '/';
+    }
+});
 
 // Connection established by socket.io
 ioServer.on("connection", (socket) => {
