@@ -11,7 +11,7 @@ const { locationGeneratingFunction } = require('./utils/location');
 const { checkValidString } = require('./utils/isValidString');
 const { Users } = require('./utils/singleUsers');
 
-const publicPath = path.join(__dirname, './../public');
+const publicPath = path.join(__dirname, './../public/');
 const port = process.env.PORT
 
 let app = express();
