@@ -11,7 +11,7 @@ const { locationGeneratingFunction } = require('./utils/location');
 const { checkValidString } = require('./utils/isValidString');
 const { Users } = require('./utils/singleUsers');
 
-const publicPath = path.join(__dirname, './../public/');
+const publicPath = path.join(__dirname, './../public');
 const port = process.env.PORT
 
 let app = express();
@@ -19,7 +19,7 @@ let server = http.createServer(app);
 let ioServer = socketIO(server);
 let users = new Users();
 
-app.use(express.static(publicPath));
+app.use("/", express.static(publicPath));
 
 
 
@@ -64,7 +64,7 @@ ioServer.on("connection", (socket) => {
     })
 
 
- 
+
     socket.on('createLocationMessage', (coords) => {
         let user = users.getUser(socket.id);
 
