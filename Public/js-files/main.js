@@ -16,7 +16,7 @@ socket.on("connect", () => {
     socket.emit('join', params, function (err) {
         if (err) {
             alert(err);
-            window.location.href = '/join';
+            window.location.href = '/';
         } else {
             console.log('No Error');
         }
