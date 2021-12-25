@@ -24,9 +24,5 @@
     "express": "^4.17.2",
     "moment": "^2.29.1",
     "socket.io": "^4.4.0"
-  },
-  "devDependencies": {
-    "expect": "^23.6.0",
-    "mocha": "^5.2.0"
   }
 }
