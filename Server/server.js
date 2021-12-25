@@ -19,7 +19,7 @@ let server = http.createServer(app);
 let ioServer = socketIO(server);
 let users = new Users();
 
-app.use(express.static(publicPath));
+app.use("/", express.static(publicPath));
 
 
 // Connection established by socket.io
