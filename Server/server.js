@@ -19,8 +19,15 @@ let server = http.createServer(app);
 let ioServer = socketIO(server);
 let users = new Users();
 
-app.use("/", express.static(publicPath));
+app.use("/join", express.static(publicPath));
 
+app.get("/", async (req, res) => {
+    try {
+        return res.redirect("/join");
+    } catch (err) {
+        return res.status(400).send(err.message);
+    }
+});
 
 // Connection established by socket.io
 ioServer.on("connection", (socket) => {
