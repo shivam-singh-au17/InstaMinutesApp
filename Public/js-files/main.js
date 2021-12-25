@@ -12,27 +12,49 @@ socket.on("disconnect", () => {
 socket.on("newMessage", (message) => {
     console.log("New Message", message);
     let li = document.createElement("li");
-    li.innerHTML = `${message.from} : ${message.text}`
+    li.innerText = `${message.from} : ${message.text}`
     document.querySelector("body").appendChild(li);
 })
 
 
-// socket.emit("createMessage", {
-//     from: "Shivam Singh",
-//     text: "Hey"
-// }, function (message) {
-//     console.log("Got it.", message);
-// });
+socket.on('newLocationMessage', function (message) {
+    console.log("newLocationMessage", message);
+
+    let li = document.createElement("li");
+    let a = document.createElement("a");
+    a.setAttribute("target", "_blank");
+    a.setAttribute("href", message.url);
+    a.innerText = `My Current Location`;
+    li.appendChild(a);
+    document.querySelector("body").appendChild(li);
+});
 
 
 
-document.getElementById('submit-btn').addEventListener('click', function (e) {
+document.getElementById("sendMessageBtn").addEventListener("click", (e) => {
     e.preventDefault();
 
     socket.emit("createMessage", {
         from: "User",
-        text: document.querySelector('input[name="message"]').value
+        text: document.getElementById("InputChatData").value
     }, function () {
-        
+
     })
 })
+
+
+
+document.getElementById("sendLocationBtn").addEventListener("click", () => {
+    if (!navigator.geolocation) {
+        return alert("Geolocation is not supported by your browser.")
+    }
+
+    navigator.geolocation.getCurrentPosition((position) => {
+        socket.emit("createLocationMessage", {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+        })
+    }, function () {
+        alert("Unable to fetch location.")
+    })
+});
