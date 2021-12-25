@@ -1,5 +1,3 @@
-require("dotenv").config();
-
 const path = require("path");
 const http = require("http");
 
@@ -11,8 +9,8 @@ const { locationGeneratingFunction } = require('./utils/location');
 const { checkValidString } = require('./utils/isValidString');
 const { Users } = require('./utils/singleUsers');
 
-const publicPath = path.join(__dirname, './../public');
-const port = process.env.PORT
+const publicPath = path.join(__dirname, '/../public');
+const port = process.env.PORT || 4004
 
 let app = express();
 let server = http.createServer(app);
