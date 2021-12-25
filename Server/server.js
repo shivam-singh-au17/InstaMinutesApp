@@ -25,8 +25,7 @@ app.get("/", async (req, res) => {
     try {
         return res.redirect("/");
     } catch (err) {
-        alert(err);
-        window.location.href = '/';
+        return res.status(400).send(err.message);
     }
 });
 
