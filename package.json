@@ -4,7 +4,7 @@
   "description": "assignment from InstaMinutes",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon Server/server.js"
+    "start": "nodemon server/server.js"
   },
   "repository": {
     "type": "git",
