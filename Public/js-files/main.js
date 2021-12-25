@@ -27,6 +27,21 @@ socket.on("disconnect", () => {
     console.log("The connection has been lost by the server");
 })
 
+
+socket.on('updateUsersList', function (users) {
+    let ol = document.createElement('ol');
+
+    users.forEach(function (user) {
+        let li = document.createElement('li');
+        li.innerHTML = user;
+        ol.appendChild(li);
+    });
+
+    let usersList = document.querySelector('#users');
+    usersList.innerHTML = "";
+    usersList.appendChild(ol);
+})
+
 socket.on("newMessage", (message) => {
     console.log("New Message", message);
 
@@ -62,7 +77,7 @@ document.getElementById("sendMessageBtn").addEventListener("click", (e) => {
         from: "User",
         text: document.getElementById("InputChatData").value
     }, function () {
-
+        document.getElementById("InputChatData").value = '';
     })
 })
 
