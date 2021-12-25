@@ -11,8 +11,10 @@ socket.on("disconnect", () => {
 
 socket.on("newMessage", (message) => {
     console.log("New Message", message);
+
+    const getOnlyTime = moment(message.createdAt).format('LT');
     let li = document.createElement("li");
-    li.innerText = `${message.from} : ${message.text}`
+    li.innerText = `${message.from} ${getOnlyTime} : ${message.text}`
     document.querySelector("body").appendChild(li);
 })
 
@@ -20,8 +22,10 @@ socket.on("newMessage", (message) => {
 socket.on('newLocationMessage', function (message) {
     console.log("newLocationMessage", message);
 
+    const getOnlyTime = moment(message.createdAt).format('LT');
     let li = document.createElement("li");
     let a = document.createElement("a");
+    li.innerText = `${message.from} ${getOnlyTime}:`
     a.setAttribute("target", "_blank");
     a.setAttribute("href", message.url);
     a.innerText = `My Current Location`;

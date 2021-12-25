@@ -1,9 +1,13 @@
 
+// Message generating function
+
+const moment = require('moment');
+
 let messageGeneratingFunction = (from, text) => {
     return {
-        from,
-        text,
-        createdAt: new Date().toTimeString()
+        from: from,
+        text: text,
+        createdAt: moment().valueOf()
     };
 };
 

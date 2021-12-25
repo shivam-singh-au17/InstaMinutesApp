@@ -1,9 +1,13 @@
 
+// Location generating function
+
+const moment = require('moment');
+
 let locationGeneratingFunction = (from, lat, lng) => {
     return {
-        from,
+        from: from,
         url: `https://www.google.com/maps?q=${lat}, ${lng}`,
-        createdAt: new Date().toTimeString()
+        createdAt: moment().valueOf()
     }
 }
 
