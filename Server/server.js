@@ -6,10 +6,10 @@ const http = require("http");
 const express = require("express");
 const socketIO = require('socket.io');
 
-const { messageGeneratingFunction } = require('./utils/message');
-const { locationGeneratingFunction } = require('./utils/location');
-const { checkValidString } = require('./utils/isValidString');
-const { Users } = require('./utils/singleUsers');
+const { messageGeneratingFunction } = require('./utils/message.js');
+const { locationGeneratingFunction } = require('./utils/location.js');
+const { checkValidString } = require('./utils/isValidString.js');
+const { Users } = require('./utils/singleUsers.js');
 
 const publicPath = path.join(__dirname, '/../public');
 const port = process.env.PORT
