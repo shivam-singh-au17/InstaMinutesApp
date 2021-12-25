@@ -1,96 +1,71 @@
 require("dotenv").config();
 
-const path = require("path");
-const http = require("http");
-
-const express = require("express");
+const path = require('path');
+const http = require('http');
+const express = require('express');
 const socketIO = require('socket.io');
 
-const { messageGeneratingFunction } = require('./utils/message');
-const { locationGeneratingFunction } = require('./utils/location');
-const { checkValidString } = require('./utils/isValidString');
-const { Users } = require('./utils/singleUsers');
+const {messageGeneratingFunction} = require('./utils/message');
+const {locationGeneratingFunction} = require('./utils/location');
+const {checkValidString} = require('./utils/isValidString');
+const {Users} = require('./utils/singleUsers');
 
 const publicPath = path.join(__dirname, '/../public');
 const port = process.env.PORT
-
 let app = express();
 let server = http.createServer(app);
-let ioServer = socketIO(server);
+let io = socketIO(server);
 let users = new Users();
 
-app.use("/", express.static(publicPath));
+app.use(express.static(publicPath));
 
+io.on('connection', (socket) => {
+  console.log("A new user just connected");
 
-// Connection established by socket.io
-ioServer.on("connection", (socket) => {
+  socket.on('join', (params, callback) => {
+    if(!checkValidString(params.name) || !checkValidString(params.room)){
+      return callback('Name and room are required');
+    }
 
-    console.log("ChatApp joined by a user");
+    socket.join(params.room);
+    users.removeUser(socket.id);
+    users.addUser(socket.id, params.name, params.room);
 
+    io.to(params.room).emit('updateUsersList', users.getUserList(params.room));
+    socket.emit('newMessage', messageGeneratingFunction('Admin', `Welocome to ${params.room}!`));
 
-    socket.on('join', (params, callback) => {
+    socket.broadcast.to(params.room).emit('newMessage', messageGeneratingFunction('Admin', "New User Joined!"));
 
-        if (!checkValidString(params.name) || !checkValidString(params.room)) {
-            return callback('Name and room are required');
-        }
+    callback();
+  })
 
-        // console.log(socket.id);
-        socket.join(params.room);
-        users.removeUser(socket.id);
-        users.addUser(socket.id, params.name, params.room);
+  socket.on('createMessage', (message, callback) => {
+    let user = users.getUser(socket.id);
 
-        ioServer.to(params.room).emit('updateUsersList', users.getUserList(params.room));
+    if(user && checkValidString(message.text)){
+        io.to(user.room).emit('newMessage', messageGeneratingFunction(user.name, message.text));
+    }
+    callback('This is the server:');
+  })
 
-        // To send welcome message to the user who has joined the ChatApp
-        socket.emit('newMessage', messageGeneratingFunction('ChatApp', `Welocome to ${params.room}!`));
+  socket.on('createLocationMessage', (coords) => {
+    let user = users.getUser(socket.id);
 
-        // A new user has joined the chat app to send notifications to everyone in the group
-        socket.broadcast.to(params.room).emit('newMessage', messageGeneratingFunction('ChatApp', "A New User Joined!"));
+    if(user){
+      io.to(user.room).emit('newLocationMessage', locationGeneratingFunction(user.name, coords.lat, coords.lng))
+    }
+  })
 
-        callback();
-    })
+  socket.on('disconnect', () => {
+    let user = users.removeUser(socket.id);
 
-
-
-    //  Listening to the event to generate the message
-    socket.on('createMessage', (message, callback) => {
-        let user = users.getUser(socket.id);
-
-        if (user && checkValidString(message.text)) {
-            ioServer.to(user.room).emit('newMessage', messageGeneratingFunction(user.name, message.text));
-        }
-        callback('This is the server:');
-    })
-
-
-
-    socket.on('createLocationMessage', (coords) => {
-        let user = users.getUser(socket.id);
-
-        if (user) {
-            ioServer.to(user.room).emit('newLocationMessage', locationGeneratingFunction(user.name, coords.lat, coords.lng))
-        }
-    })
-
-
-    // When the user leaves the ChatApp
-    socket.on('disconnect', () => {
-
-        console.log("ChatApp abandoned by a user");
-
-        let user = users.removeUser(socket.id);
-
-        if (user) {
-            ioServer.to(user.room).emit('updateUsersList', users.getUserList(user.room));
-            ioServer.to(user.room).emit('newMessage', messageGeneratingFunction('Admin', `${user.name} has left ${user.room} chat room.`))
-        }
-    });
-
-
-})
-
-
-server.listen(port, () => {
-    console.log("Express server running on PORT :=>", port);
+    if(user){
+      io.to(user.room).emit('updateUsersList', users.getUserList(user.room));
+      io.to(user.room).emit('newMessage', messageGeneratingFunction('Admin', `${user.name} has left ${user.room} chat room.`))
+    }
+  });
 });
 
+server.listen(port, ()=>{
+  console.log(`Server is up on port ${port}`);
+})
