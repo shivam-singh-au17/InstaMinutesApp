@@ -4,8 +4,7 @@
   "description": "assignment from InstaMinutes",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon Server/server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node Server/server.js"
   },
   "repository": {
     "type": "git",
@@ -24,7 +23,6 @@
     "dotenv": "^10.0.0",
     "express": "^4.17.2",
     "moment": "^2.29.1",
-    "nodemon": "^2.0.15",
     "socket.io": "^4.4.0"
   }
 }
