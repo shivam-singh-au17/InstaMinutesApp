@@ -1,8 +1,26 @@
 
 let socket = io();
 
+function autoScrollingFunction() {
+    let messages = document.querySelector('#mainMessageCntainer').lastElementChild;
+    messages.scrollIntoView();
+}
+
 socket.on("connect", () => {
+    
     console.log("A connection to the server has been established");
+
+    let searchQuery = window.location.search.substring(1);
+    let params = JSON.parse('{"' + decodeURI(searchQuery).replace(/&/g, '","').replace(/\+/g, ' ').replace(/=/g, '":"') + '"}');
+
+    socket.emit('join', params, function (err) {
+        if (err) {
+            alert(err);
+            window.location.href = '/';
+        } else {
+            console.log('No Error');
+        }
+    })
 })
 
 socket.on("disconnect", () => {
@@ -15,7 +33,8 @@ socket.on("newMessage", (message) => {
     const getOnlyTime = moment(message.createdAt).format('LT');
     let li = document.createElement("li");
     li.innerText = `${message.from} ${getOnlyTime} : ${message.text}`
-    document.querySelector("body").appendChild(li);
+    document.getElementById("mainMessageCntainer").appendChild(li);
+    autoScrollingFunction()
 })
 
 
@@ -30,7 +49,8 @@ socket.on('newLocationMessage', function (message) {
     a.setAttribute("href", message.url);
     a.innerText = `My Current Location`;
     li.appendChild(a);
-    document.querySelector("body").appendChild(li);
+    document.getElementById("mainMessageCntainer").appendChild(li);
+    autoScrollingFunction()
 });
 
 
