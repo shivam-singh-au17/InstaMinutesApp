@@ -6,6 +6,7 @@ const http = require("http");
 const express = require("express");
 const socketIO = require('socket.io');
 
+const { messageGeneratingFunction } = require('./utils/message');
 const publicPath = path.join(__dirname, './../public');
 const port = process.env.PORT
 
@@ -20,39 +21,30 @@ app.use(express.static(publicPath));
 // Connection established by socket.io
 ioServer.on("connection", (socket) => {
 
-    console.log("chatApp joined by a user");
+    console.log("ChatApp joined by a user");
 
 
     // To send welcome message to the user who has joined the ChatApp
-    socket.emit('newMessage', {
-        from: "chatApp",
-        text: "Welcome to the chat app!",
-        createdTime: new Date().getTime()
-    });
+    socket.emit('newMessage', messageGeneratingFunction('ChatApp', `Welcome to the chat app!`));
 
 
+    
     // A new user has joined the chat app to send notifications to everyone in the group
-    socket.broadcast.emit('newMessage', {
-        from: "chatApp",
-        text: "A New User Joined!",
-        createdTime: new Date().getTime()
-    });
+    socket.broadcast.emit('newMessage', messageGeneratingFunction('ChatApp', "A New User Joined!"));
+
 
 
     //  Listening to the event to generate the message
-    socket.on("createMessage", (message) => {
+    socket.on("createMessage", (message, callback) => {
         console.log("createMessage", message);
-        ioServer.emit("", {
-            from: message.from,
-            text: message.text,
-            createdTime: new Date().getTime()
-        })
+        ioServer.emit("newMessage", messageGeneratingFunction(message.from, message.text))
+        callback('This is the server:');
     })
 
 
     // When the user leaves the ChatApp
     socket.on("disconnect", () => {
-        console.log("chatApp abandoned by a user");
+        console.log("ChatApp abandoned by a user");
     })
 
 
