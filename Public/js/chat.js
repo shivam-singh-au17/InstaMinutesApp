@@ -29,43 +29,64 @@ socket.on("disconnect", () => {
 
 
 socket.on('updateUsersList', function (users) {
-  let ol = document.createElement('ol');
+
+  let tr = document.createElement('tr');
 
   users.forEach(function (user) {
-    let li = document.createElement('li');
-    li.innerHTML = user;
-    ol.appendChild(li);
+    let div = document.createElement('div');
+    div.id = "oneUser"
+    div.innerHTML = `<i class="fa fa-user" aria-hidden="true"></i> <span> ${user}</span> <i class="fa fa-circle" aria-hidden="true"></i>`;
+    tr.appendChild(div);
   });
 
-  let usersList = document.querySelector('#users');
+  let usersList = document.getElementById('users');
   usersList.innerHTML = "";
-  usersList.appendChild(ol);
+  usersList.appendChild(tr);
+
 })
 
 socket.on("newMessage", (message) => {
-  console.log("New Message", message);
 
   const getOnlyTime = moment(message.createdAt).format('LT');
-  let li = document.createElement("li");
-  li.innerText = `${message.from} ${getOnlyTime} : ${message.text}`
-  document.getElementById("mainMessageCntainer").appendChild(li);
+  let div1 = document.createElement("div");
+  div1.id ="one-msg-box"
+  let span1 = document.createElement("span");
+  span1.innerHTML = `${message.from}`
+  let div2 = document.createElement("div");
+  div2.innerHTML = `${message.text}`
+  let span2 = document.createElement("span");
+  span2.innerHTML = `${getOnlyTime}`
+  div1.append(span1, div2, span2);
+  document.getElementById("mainMessageCntainer").appendChild(div1);
   autoScrollingFunction()
+
 })
 
 
 socket.on('newLocationMessage', function (message) {
-  console.log("newLocationMessage", message);
 
   const getOnlyTime = moment(message.createdAt).format('LT');
-  let li = document.createElement("li");
+  let div = document.createElement("div");
+  div.id = "one-location-box";
+
+  let span1 = document.createElement("span");
+  span1.innerHTML = `${message.from}`
+
+  let div2 = document.createElement("div");
+
   let a = document.createElement("a");
-  li.innerText = `${message.from} ${getOnlyTime}:`
   a.setAttribute("target", "_blank");
   a.setAttribute("href", message.url);
-  a.innerText = `My Current Location`;
-  li.appendChild(a);
-  document.getElementById("mainMessageCntainer").appendChild(li);
+  a.innerText = `My Location`;
+
+  let span2 = document.createElement("span");
+  span2.innerHTML = `${getOnlyTime}`
+
+  div2.appendChild(a)
+  div.append(span1, div2, span2);
+  document.getElementById("mainMessageCntainer").appendChild(div);
   autoScrollingFunction()
+
 });
 
 
@@ -79,11 +100,13 @@ document.getElementById("sendMessageBtn").addEventListener("click", (e) => {
   }, function () {
     document.getElementById("InputChatData").value = '';
   })
+
 })
 
 
 
 document.getElementById("sendLocationBtn").addEventListener("click", () => {
+
   if (!navigator.geolocation) {
     return alert("Geolocation is not supported by your browser.")
   }
@@ -96,4 +119,7 @@ document.getElementById("sendLocationBtn").addEventListener("click", () => {
   }, function () {
     alert("Unable to fetch location.")
   })
+
 });
+
+

@@ -31,9 +31,9 @@ io.on('connection', (socket) => {
     users.addUser(socket.id, params.name, params.room);
 
     io.to(params.room).emit('updateUsersList', users.getUserList(params.room));
-    socket.emit('newMessage', messageGeneratingFunction('Admin', `Welocome to ${params.room}!`));
+    socket.emit('newMessage', messageGeneratingFunction('ChatApp', `Welocome to ${params.room} group!`));
 
-    socket.broadcast.to(params.room).emit('newMessage', messageGeneratingFunction('Admin', "New User Joined!"));
+    socket.broadcast.to(params.room).emit('newMessage', messageGeneratingFunction('ChatApp', "New User Joined!"));
 
     callback();
   })
@@ -60,7 +60,7 @@ io.on('connection', (socket) => {
 
     if(user){
       io.to(user.room).emit('updateUsersList', users.getUserList(user.room));
-      io.to(user.room).emit('newMessage', messageGeneratingFunction('Admin', `${user.name} has left ${user.room} chat room.`))
+      io.to(user.room).emit('newMessage', messageGeneratingFunction('ChatApp', `${user.name} has left ${user.room} chat group.`))
     }
   });
 });
