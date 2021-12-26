@@ -30,23 +30,24 @@ npm start
 
 # Some screenshots of our project
 
-#### 1. This is the first view of my assignment where you can see all the stocks added by the user.
+#### 1. This is the first scene of InstaMinutes Assignment where you can enter your name and your group name to go to the chat room and Fill your name and group name correctly because if you enter group name wrong then you will go to another group.
 ![Screenshot (306)](https://github.com/shivam-singh-au17/InstaMinutesApp/blob/master/screenshots/Screenshot%20(306).png?raw=true)
+
+#### 2. Once you have given your name to use then after clicking on the join button you will be redirected to this page and you will see a welcome message.
 ![Screenshot (307)](https://github.com/shivam-singh-au17/InstaMinutesApp/blob/master/screenshots/Screenshot%20(307).png?raw=true)
 
-#### 2. And in this photo, the result of the stocks the user is searching for can be seen.
+#### 3. If someone joins your group then you will get to see a joining message and his/her name will be added to the group member list.
 ![Screenshot (308)](https://github.com/shivam-singh-au17/InstaMinutesApp/blob/master/screenshots/Screenshot%20(308).png?raw=true)
 
-#### 3. The user can delete the added stocks here, the stock on which he hovers, a delete button appears on it, on clicking it, it gets deleted and buttons are also visible to shorten it here.
+
+#### 4. If any user leaves your group, then you will also get a message to leave the group.
 ![Screenshot (309)](https://github.com/shivam-singh-au17/InstaMinutesApp/blob/master/screenshots/Screenshot%20(309).png?raw=true)
 
-#### 4. If the user searches for a stock which he has already added to the watch list, he sees the delete button instead of the add button there.
+#### 5. You can add and talk to any number of users in your group and you are also able to share your location with them.
 ![Screenshot (310)](https://github.com/shivam-singh-au17/InstaMinutesApp/blob/master/screenshots/Screenshot%20(310).png?raw=true)
-
-#### 5. If the user searches for a stock that is not included in his watch list, he sees an add button when he hovers that stock.
 ![Screenshot (311)](https://github.com/shivam-singh-au17/InstaMinutesApp/blob/master/screenshots/Screenshot%20(311).png?raw=true)
 ![Screenshot (312)](https://github.com/shivam-singh-au17/InstaMinutesApp/blob/master/screenshots/Screenshot%20(312).png?raw=true)
 
-***So this was the TRINKERR assignment I have created with my efforts. I have added the screenshots for our audience to understand easily.***
+***So this was the InstaMinutes Assignment I have created with my efforts. I have added the screenshots for our audience to understand easily.***
 
 ### Thank you for giving it a read...
