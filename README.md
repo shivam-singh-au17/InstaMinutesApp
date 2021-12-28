@@ -20,6 +20,7 @@ npm start
 # Technologies Used
 
 - I used  [HTML-5](https://www.w3schools.com/html/) ,  [CSS-3](https://www.w3schools.com/css/default.asp) and [Javascript](https://www.w3schools.com/js/default.asp) for front-end.
+- I used  [socket-io](https://socket.io.com/) for chat.
 - And I also used  [Bootstrap](https://getbootstrap.com/) for some designing and layout.
 
 
